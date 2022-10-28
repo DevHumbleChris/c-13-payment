@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { Watch } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setAuthentication } from "../store/slices/authSlice";
+import { setAuthentication, setUser } from "../store/slices/authSlice";
 
 export default function Example() {
   const [email, setEmail] = useState("");
@@ -14,6 +14,7 @@ export default function Example() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [googleLoading, setGoogleLoading] = useState(false)
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true)
@@ -33,6 +34,11 @@ export default function Example() {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, user => {
       if (user) {
+        dispatch(setUser({
+          displayName: user.displayName,
+          email: user.email,
+          uid: user.uid
+        }))
         dispatch(setAuthentication())
         navigate('/')
       }
@@ -42,13 +48,20 @@ export default function Example() {
     }
   }, [])
   const googleSignUp = async () => {
+    setGoogleLoading(false)
     signInWithPopup(auth, provider)
       .then(result => {
-        console.log(result.user)
+        dispatch(setUser({
+          displayName: result.user.displayName,
+          email: result.user.email,
+          uid: result.user.uid
+        }))
+        setGoogleLoading(false)
         dispatch(setAuthentication())
         navigate('/')
       })
       .catch(err => {
+        setGoogleLoading(false)
         toast.error(err.message)
       })
   }
@@ -157,14 +170,32 @@ export default function Example() {
               <span className="bg-body-color ml-2 inline-block h-[1px] w-24 mx-2"></span>
             </p>
             <button className="group relative flex w-full justify-center rounded-md border  py-2 px-4 text-sm font-medium text-primary focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" onClick={googleSignUp}>
-              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <img
-                  src="https://tailus.io/sources/blocks/social/preview/images/google.svg"
-                  className="h-5 w-5"
-                  aria-hidden="true"
-                />
-              </span>
-              Google Signup
+            {googleLoading ? (
+              <>
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <Watch
+                      height="20"
+                      width="20"
+                      radius="48"
+                      color="blue"
+                      ariaLabel="watch-loading"
+                      visible={true}
+                    />
+                </span>
+                <span>Processing</span>
+              </>
+            ) : (
+              <>
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <img
+                    src="https://tailus.io/sources/blocks/social/preview/images/google.svg"
+                    className="h-5 w-5"
+                    aria-hidden="true"
+                  />
+                </span>
+                <span>Google Signup</span>
+              </>
+            )}
             </button>
           </div>
       </div>
