@@ -1,7 +1,7 @@
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../firebaseConfig";
 import { toast } from "react-toastify";
 import { Watch } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
@@ -41,6 +41,17 @@ export default function Example() {
       unsub()
     }
   }, [])
+  const googleSignUp = async () => {
+    signInWithPopup(auth, provider)
+      .then(result => {
+        console.log(result.user)
+        dispatch(setAuthentication())
+        navigate('/')
+      })
+      .catch(err => {
+        toast.error(err.message)
+      })
+  }
   return (
     <section className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
@@ -138,13 +149,14 @@ export default function Example() {
               Signin.
             </Link>
           </p>
-          <div>
+        </form>
+        <div>
             <p className="text-body-color mb-2 flex justify-center items-center text-xs font-normal uppercase">
               <span className="bg-body-color ml-2 inline-block h-[1px] w-24 mx-2"></span>
               Or continue with
               <span className="bg-body-color ml-2 inline-block h-[1px] w-24 mx-2"></span>
             </p>
-            <button className="group relative flex w-full justify-center rounded-md border  py-2 px-4 text-sm font-medium text-primary focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <button className="group relative flex w-full justify-center rounded-md border  py-2 px-4 text-sm font-medium text-primary focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" onClick={googleSignUp}>
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <img
                   src="https://tailus.io/sources/blocks/social/preview/images/google.svg"
@@ -155,7 +167,6 @@ export default function Example() {
               Google Signup
             </button>
           </div>
-        </form>
       </div>
     </section>
   );
