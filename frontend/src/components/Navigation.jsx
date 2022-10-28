@@ -5,17 +5,19 @@ import Docs from "../views/Docs";
 import Home from "../views/Home";
 import Login from "../views/Login";
 import Header from "./Header";
-import Signup from '../views/Signup'
+import Signup from "../views/Signup";
+import ProtectedRoute from "./ProtectedRoute";
 
 export default function Navigation() {
   const authenticated = useSelector((state) => state.auth.authenticated);
   return (
     <BrowserRouter>
-      {/* { authenticated && <Header />} */}
-      <Header />
+      { authenticated && <Header />}
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/docs" element={<Docs />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/docs" element={<Docs />} />
+        </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
