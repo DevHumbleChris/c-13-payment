@@ -84,7 +84,7 @@ export default function Hero() {
               </div>
               <PaymentForm />
               <div>
-                <span className="absolute -top-10 -right-9 z-[-1]">
+                <span className="absolute -top-6 -right-9 z-[-1]">
                   <svg
                     width="100"
                     height="100"
