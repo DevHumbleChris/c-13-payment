@@ -2,6 +2,7 @@ import React from "react";
 import PaymentForm from "./PaymentForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import Notification from "./Notification";
 
 export default function Hero() {
   return (
@@ -83,6 +84,7 @@ export default function Hero() {
                 </h2>
               </div>
               <PaymentForm />
+              {/* <Notification /> */}
               <div>
                 <span className="absolute -top-6 -right-9 z-[-1]">
                   <svg
