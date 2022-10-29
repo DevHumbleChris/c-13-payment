@@ -1,8 +1,12 @@
 const axios = require("axios");
 const { generateToken } = require('../middlewares')
+const User = require('../models/User')
+
 module.exports = {
   index: (req, res) => {
-    res.send("Hello Controllers");
+    res.json({
+      message: 'Sorry Wrong Route'
+    })
   },
   stkRoute: async (req, res) => {
     const phoneNumber = req.body.phoneNumber.substring(1);
