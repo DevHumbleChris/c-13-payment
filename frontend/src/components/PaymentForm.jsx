@@ -3,13 +3,12 @@ import { useState } from "react";
 import { Watch } from "react-loader-spinner";
 import axios from "axios";
 import { useEffect } from "react";
+import { toast } from 'react-toastify'
 
 export default function PaymentForm() {
   const [loading, setLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [amount, setAmount] = useState("");
-  const [message, setMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -20,42 +19,18 @@ export default function PaymentForm() {
       })
       .then(( { data }) => {
         setTimeout(() => {
-          setMessage(data.response.CustomerMessage);
+          toast.info(data.response.CustomerMessage)
           setLoading(false);
         }, 2000);
       })
       .catch((err) => {
-        setErrorMessage(err.message);
+        toast.error(err.message)
       });
     setAmount("");
     setPhoneNumber("");
   };
-  useEffect(() => {
-    setTimeout(() => {
-      setMessage('')
-    }, 3000)
-  }, [message])
-  useEffect(() => {
-    setTimeout(() => {
-      setErrorMessage('')
-    }, 3000)
-  }, [errorMessage])
   return (
     <form onSubmit={handleSubmit}>
-      {message && (
-        <>
-          <div className="bg-green-600 p-3 my-2 text-white rounded-xl">
-            { message }
-          </div>
-        </>
-      )}
-      {errorMessage && (
-        <>
-          <div className="bg-red-600 p-3 my-2 text-white rounded-xl">
-            { errorMessage }
-          </div>
-        </>
-      )}
       <div className="mb-3">
         <label
           htmlFor="price"
