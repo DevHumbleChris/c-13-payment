@@ -32,7 +32,7 @@ module.exports = {
         PartyA: `254${phoneNumber}`,
         PartyB: shortCode,
         PhoneNumber: `254${phoneNumber}`,
-        CallBackURL: "https://mydomain.com/pat",
+        CallBackURL: "https://api-c-13-payment.vercel.app/callback",
         AccountReference: `254${phoneNumber}`,
         TransactionDesc: "test",
       },

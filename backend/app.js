@@ -3,7 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 const mainRoute = require('./routes')
 
 const app = express()
