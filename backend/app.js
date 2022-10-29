@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({
 app.use('/', mainRoute)
 
 // MongoDB Setup.
-mongoose.connect(process.env.MONGODB_LOCAL_URI, {
+mongoose.connect(process.env.MONGODB_URI, {
     useUnifiedTopology: true,
 })
 
