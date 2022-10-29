@@ -2,7 +2,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Watch } from "react-loader-spinner";
 import axios from "axios";
-import { useEffect } from "react";
 import { toast } from 'react-toastify'
 
 export default function PaymentForm() {
@@ -24,6 +23,7 @@ export default function PaymentForm() {
         }, 2000);
       })
       .catch((err) => {
+        setLoading(false);
         toast.error(err.message)
       });
     setAmount("");

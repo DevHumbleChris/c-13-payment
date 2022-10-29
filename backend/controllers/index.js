@@ -54,6 +54,8 @@ module.exports = {
     generateToken()
   },
   callbackURl: async (req, res) => {
-    console.log(req.body)
+    res.json({
+      data: req.body
+    })
   }
 };
